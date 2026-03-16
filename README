@@ -1,0 +1,57 @@
+# PgBouncer Docker Image - debian:trixie-slim
+
+I created a PgBouncer image based on Debian Trixie Slim for use in a private project. The decision to create this image was motivated by the need to use an official Debian base, ensuring that the packages are always up to date. During the build process, I update the package list to ensure that the image is optimized and secure.
+
+Criei uma imagem do PgBouncer baseada no **Debian Trixie Slim** para uso em um projeto privado. A decisão de criar essa imagem foi motivada pela necessidade de utilizar uma base oficial do Debian, garantindo que os pacotes estejam sempre atualizados. Durante o processo de compilação, atualizo a lista de pacotes para assegurar que a imagem esteja otimizada e segura.
+
+### Attention / Atenção
+
+This PgBouncer image has been tested and used with PostgreSQL 16 in Docker Compose, using the authentication method scram-sha-256. This configuration ensures secure and efficient communication between the services.
+
+Esta imagem do PgBouncer foi testada e utilizada com PostgreSQL 16 em Docker Compose, utilizando o método de autenticação scram-sha-256. Essa configuração garante uma comunicação segura e eficiente entre os serviços.
+
+## Environment variables / Variáveis de ambiente
+
+This image was designed to use multiple hosts and multiple users, so it is necessary to follow the logic that I will explain. 
+**You cannot use** `,` **in the variables because the script splits using** `,`**.**
+
+Esta imagem foi concebida para utilizar vários hosts e vários usuários, então é necessário seguir a lógica que eu vou explicar.
+**Não pode usar** `,` **nas variáveis porque o script faz split usando** `,` **.**
+
+| Variable / Variável | Value / Valor | Mandatory | Default Value/Valor Padrão |
+| ------------- | ------ | ----- | -----| 
+| DB_HOSTS | host1,host2,host3 | Yes/Sim |  |
+| DB_PORTS | 5432,5432,5432 | Yes/Sim |  |
+| DB_NAMES | db1,db2,db3 | Yes/Sim |  |
+| DB_USERS | user1,user2 | Yes/Sim |  |
+| DB_PASSWORDS | pass1,pass2 | Yes/Sim |  |
+| LISTEN_ADDR |  | No/Não | 0.0.0.0 |
+| LISTEN_PORT |  | No/Não | 6432 |
+| AUTH_TYPE |  | No/Não | scram-sha-256 |
+| POOL_MODE |  | No/Não | transaction | 
+| MAX_CLIENT_CONN |  | No/Não | 100 |
+| DEFAULT_POOL_SIZE |  | No/Não | 20 |
+
+**Using these variables, the databases will be created in** `/etc/pgbouncer/pgbouncer.ini` **as follows**:
+
+**Com essas variaveis vai ser criado no** `/etc/pgbouncer/pgbouncer.ini` **os databases da seguinte maneira:**
+
+
+
+```python
+[databases]
+db1 = host=host1 port=5432 dbname=db1
+db2 = host=host2 port=5432 dbname=db2
+db3 = host=host3 port=5432 dbname=db3
+```
+**And the file** `/etc/pgbouncer/userlist.txt` **will be created like this:**
+
+**E o arquivo** `/etc/pgbouncer/userlist.txt` **será criado assim:**
+```python
+"user1" "pass1"
+"user2" "pass2"
+```
+
+
+### Developed at [IRC Notarial](https://ircnotarial.com.br) and shared freely.
+### Desenvolvido na [IRC Notarial](https://ircnotarial.com.br) e compartilhado livremente

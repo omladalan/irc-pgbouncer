@@ -1,0 +1,37 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:16
+    restart: always
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - 127.0.0.1:5432:5432
+  irc-pgbouncer:
+    container_name: irc-pgbouncer
+    restart: always
+    build:
+      context: ../..
+    environment:
+      - DB_HOSTS=${DB_HOSTS}
+      - DB_PORTS=${DB_PORTS}
+      - DB_NAMES=${DB_NAMES}
+      - DB_USERS=${DB_USERS}
+      - DB_PASSWORDS=${DB_PASSWORDS}
+      - LISTEN_ADDR=${LISTEN_ADDR}
+      - LISTEN_PORT=${LISTEN_PORT}
+      - AUTH_TYPE=${AUTH_TYPE}
+      - POOL_MODE=${POOL_MODE}
+      - MAX_CLIENT_CONN=${MAX_CLIENT_CONN}
+      - DEFAULT_POOL_SIZE=${DEFAULT_POOL_SIZE}
+    ports:
+      - 127.0.0.1:6432:${LISTEN_PORT}
+    depends_on:
+      - postgres    
+volumes:
+  pg_data:
