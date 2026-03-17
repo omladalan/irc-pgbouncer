@@ -31,6 +31,8 @@ max_client_conn = ${MAX_CLIENT_CONN:-100}
 default_pool_size = ${DEFAULT_POOL_SIZE:-20}
 logfile = /dev/stdout
 ignore_startup_parameters = extra_float_digits
+admin_users = ${ADMIN_USERS}
+unix_socket_mode = ${UNIX_SOCKET_MODE}
 EOL
 
 y=0

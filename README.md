@@ -1,4 +1,4 @@
-# PgBouncer Docker Image - debian:trixie-slim
+# PgBouncer Docker Image - debian:trixie-slim [CHANGELOG](CHANGELOG.md)
 
 I created a PgBouncer image based on Debian Trixie Slim for use in a private project. The decision to create this image was motivated by the need to use an official Debian base, ensuring that the packages are always up to date. During the build process, I update the package list to ensure that the image is optimized and secure.
 
@@ -31,6 +31,8 @@ Esta imagem foi concebida para utilizar vários hosts e vários usuários, entã
 | POOL_MODE |  | No/Não | transaction | 
 | MAX_CLIENT_CONN |  | No/Não | 100 |
 | DEFAULT_POOL_SIZE |  | No/Não | 20 |
+| ADMIN_USERS | postgres | Yes/sim |  |
+| UNIX_SOCKET_MODE | 1777 | Yes/Sim |  |
 
 **Using these variables, the databases will be created in** `/etc/pgbouncer/pgbouncer.ini` **as follows**:
 
