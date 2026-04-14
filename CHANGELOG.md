@@ -1,3 +1,6 @@
+## 1.1.1 - 2026-04-14
+-It was recompiled so that apt security updates are applied.
+
 ## 1.1.0 - 2026-03-17
 
 ### Added / Adicionado
